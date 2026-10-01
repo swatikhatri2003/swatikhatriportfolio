@@ -143,7 +143,8 @@
         line-height: 1.65;
       }
 
-      #home .flex.flex-wrap.justify-center.gap-4 a {
+      #home .flex.flex-wrap.justify-center.gap-4 a,
+      #home .flex.flex-wrap.justify-center.gap-4 button {
         width: 100%;
         justify-content: center;
       }
@@ -310,6 +311,11 @@
         <a href="#contact"
           class="px-8 py-3.5 rounded-xl glass-card text-slate-200 font-medium hover:bg-slate-800 transition flex items-center gap-2">
           <i class="fa-solid fa-paper-plane"></i> Contact Me
+        </a>
+       
+        <a href="Swati_Khatri_Resume_ATS.pdf" download="Swati_Khatri_Resume.pdf"
+          class="px-8 py-3.5 rounded-xl bg-emerald-600 text-white font-medium hover:bg-emerald-500 transition shadow-lg shadow-emerald-600/30 flex items-center gap-2">
+          <i class="fa-solid fa-download"></i> Download Resume
         </a>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto mt-10">
@@ -1445,9 +1451,41 @@
           <i class="fa-brands fa-instagram text-pink-400 text-xl"></i>
           <span class="text-sm font-medium">Instagram</span>
         </a>
+        <button type="button" data-view-resume
+          class="glass-card px-6 py-4 rounded-2xl flex items-center gap-3 hover:border-indigo-500 transition">
+          <i class="fa-solid fa-file-pdf text-rose-400 text-xl"></i>
+          <span class="text-sm font-medium">View Resume</span>
+        </button>
+        <a href="Swati_Khatri_Resume_ATS.pdf" download="Swati_Khatri_Resume.pdf"
+          class="glass-card px-6 py-4 rounded-2xl flex items-center gap-3 hover:border-emerald-500 transition">
+          <i class="fa-solid fa-download text-emerald-400 text-xl"></i>
+          <span class="text-sm font-medium">Download Resume</span>
+        </a>
       </div>
     </div>
   </section>
+
+  <!-- RESUME VIEWER -->
+  <div id="resume-modal" class="hidden fixed inset-0 z-[60] bg-slate-950/80 backdrop-blur-sm p-4 sm:p-8">
+    <div class="max-w-5xl mx-auto h-full flex flex-col glass-card rounded-2xl overflow-hidden">
+      <div class="flex items-center justify-between gap-3 px-4 py-3 border-b border-slate-700">
+        <p class="font-semibold text-sm sm:text-base">Swati Khatri — Resume</p>
+        <div class="flex items-center gap-2">
+          <a href="Swati_Khatri_Resume_ATS.pdf" download="Swati_Khatri_Resume.pdf"
+            class="px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs sm:text-sm font-medium hover:bg-emerald-500 transition flex items-center gap-2">
+            <i class="fa-solid fa-download"></i> Download
+          </a>
+          <button type="button" id="close-resume"
+            class="w-9 h-9 rounded-lg bg-slate-800 text-slate-200 hover:bg-slate-700 transition"
+            aria-label="Close resume">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <iframe title="Swati Khatri Resume" src="Swati_Khatri_Resume_ATS.pdf"
+        class="w-full flex-1 bg-white"></iframe>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="py-8 text-center text-xs text-slate-500 border-t border-slate-800">
@@ -1470,6 +1508,30 @@
     const mobileMenu = document.getElementById("mobile-menu");
     menuBtn.addEventListener("click", () => {
       mobileMenu.classList.toggle("hidden");
+    });
+
+    const resumeModal = document.getElementById("resume-modal");
+    const openResume = () => {
+      resumeModal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    };
+    const closeResume = () => {
+      resumeModal.classList.add("hidden");
+      document.body.style.overflow = "";
+    };
+
+    document.getElementById("view-resume").addEventListener("click", openResume);
+    document.querySelectorAll("[data-view-resume]").forEach((btn) => {
+      btn.addEventListener("click", openResume);
+    });
+    document.getElementById("close-resume").addEventListener("click", closeResume);
+    resumeModal.addEventListener("click", (event) => {
+      if (event.target === resumeModal) closeResume();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !resumeModal.classList.contains("hidden")) {
+        closeResume();
+      }
     });
   </script>
 </body>
